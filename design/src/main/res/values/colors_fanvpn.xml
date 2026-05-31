@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- FanVPN UI palette (from Chrome extension popup.html :root vars) -->
+    <color name="fanvpn_bg_deep">#050810</color>
+    <color name="fanvpn_bg_base">#0A0E1A</color>
+    <color name="fanvpn_bg_elev">#131B2E</color>
+    <color name="fanvpn_bg_card">#0F1525</color>
+    <color name="fanvpn_text_primary">#E8F1FF</color>
+    <color name="fanvpn_text_secondary">#8FA3BF</color>
+    <color name="fanvpn_text_tertiary">#5A6B85</color>
+    <color name="fanvpn_neon">#00E5FF</color>
+    <color name="fanvpn_green">#00FF94</color>
+    <color name="fanvpn_amber">#FFB547</color>
+    <color name="fanvpn_danger">#FF4757</color>
+</resources>

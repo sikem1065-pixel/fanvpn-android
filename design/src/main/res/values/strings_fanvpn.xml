@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fanvpn_tap_connect">点击连接</string>
+    <string name="fanvpn_connect_success">连接成功</string>
+    <string name="fanvpn_hero_sub">安全访问全球网络</string>
+    <string name="fanvpn_connected">已连接</string>
+    <string name="fanvpn_disconnected">未连接</string>
+    <string name="fanvpn_auto_select">自动选择</string>
+    <string name="fanvpn_line_smooth">线路畅通</string>
+    <string name="fanvpn_select">选择 ›</string>
+    <string name="fanvpn_switch">切换 ›</string>
+    <string name="fanvpn_smart_route">智能分流</string>
+    <string name="fanvpn_website">官网:fanvpn.net</string>
+    <string name="fanvpn_flag_auto">AUTO</string>
+    <string name="fanvpn_flag_default">US</string>
+    <string name="fanvpn_refresh">↻ 刷新</string>
+    <string name="fanvpn_refreshing">刷新中…</string>
+    <string name="fanvpn_refresh_done">已更新</string>
+    <string name="fanvpn_refresh_failed">更新失败，请检查网络</string>
+    <string name="fanvpn_connect_first">请先连接 VPN 后切换节点</string>
+    <string name="fanvpn_selected_route">已选线路</string>
+</resources>

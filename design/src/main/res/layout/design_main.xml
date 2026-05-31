@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.github.kr328.clash.design.FlagUtil"/>
+        <variable
+            name="self"
+            type="com.github.kr328.clash.design.MainDesign" />
+        <variable
+            name="clashRunning"
+            type="boolean" />
+        <variable
+            name="forwarded"
+            type="String" />
+        <variable
+            name="mode"
+            type="String" />
+        <variable
+            name="profileName"
+            type="String" />
+        <variable
+            name="activeProxy"
+            type="String" />
+        <variable
+            name="colorClashStarted"
+            type="int" />
+        <variable
+            name="colorClashStopped"
+            type="int" />
+        <variable
+            name="hasProviders"
+            type="boolean" />
+
+        <variable
+            name="isRefreshing"
+            type="boolean" />
+
+        <variable
+            name="announceVisible"
+            type="boolean" />
+        <variable
+            name="announceTitle"
+            type="String" />
+        <variable
+            name="announceBody"
+            type="String" />
+        <import type="android.view.View" />
+        <import type="com.github.kr328.clash.design.MainDesign.Request" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_main"
+        android:paddingStart="@{self.surface.insets.start}"
+        android:paddingEnd="@{self.surface.insets.end}">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="@{self.surface.insets.top}"
+                android:paddingBottom="@{self.surface.insets.bottom}">
+
+                <!-- ===== 顶部:品牌 + 右上菜单 ===== -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="18dp">
+
+                    <View
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/logo_fanvpn" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="9dp"
+                        android:text="@string/application_name"
+                        android:textColor="#E8F1FF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- 状态 pill -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_status_pill"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="11dp"
+                        android:paddingVertical="5dp">
+
+                        <View
+                            android:layout_width="6dp"
+                            android:layout_height="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:background="@{clashRunning ? @drawable/dot_connected : @drawable/dot_idle}" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{clashRunning ? @string/fanvpn_connected : @string/fanvpn_disconnected}"
+                            android:textColor="@{clashRunning ? @color/fanvpn_green : @color/fanvpn_text_secondary}"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- 右上菜单 -->
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="6dp"
+                        android:padding="4dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{() -> self.request(Request.OpenAbout)}"
+                        android:src="@drawable/ic_fanvpn_menu" />
+                </LinearLayout>
+
+                <!-- ===== Hero:雷达环 + 盾牌按钮 ===== -->
+                <FrameLayout
+                    android:layout_width="156dp"
+                    android:layout_height="156dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="32dp">
+
+                    <!-- 外环 -->
+                    <View
+                        android:layout_width="156dp"
+                        android:layout_height="156dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/ring_outer"
+                        android:background="@{clashRunning ? @drawable/ring_on_outer : @drawable/ring_idle_outer}" />
+
+                    <!-- 中环 -->
+                    <View
+                        android:layout_width="122dp"
+                        android:layout_height="122dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/ring_mid"
+                        android:background="@{clashRunning ? @drawable/ring_on_mid : @drawable/ring_idle_mid}" />
+
+                    <!-- 内环 -->
+                    <View
+                        android:layout_width="92dp"
+                        android:layout_height="92dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/ring_inner"
+                        android:background="@{clashRunning ? @drawable/ring_on_inner : @drawable/ring_idle_inner}" />
+
+                    <!-- 中心连接按钮 -->
+                    <FrameLayout
+                        android:id="@+id/connectButton"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_gravity="center"
+                        android:background="@{clashRunning ? @drawable/btn_connect_on : @drawable/btn_connect_idle}"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:onClick="@{() -> self.request(Request.ToggleStatus)}">
+
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@{clashRunning ? @drawable/ic_fanvpn_shield_on : @drawable/ic_fanvpn_shield}" />
+                    </FrameLayout>
+                </FrameLayout>
+
+                <!-- ===== Hero 文案 ===== -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:gravity="center"
+                    android:text="@{clashRunning ? @string/fanvpn_connect_success : @string/fanvpn_tap_connect}"
+                    android:textColor="#E8F1FF"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:minHeight="16dp"
+                    android:text="@{clashRunning ? @string/format_traffic_forwarded(forwarded) : @string/fanvpn_hero_sub}"
+                    android:textColor="@{clashRunning ? @color/fanvpn_green : @color/fanvpn_text_tertiary}"
+                    android:textSize="12sp" />
+
+                <!-- ===== 节点卡片 ===== -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:background="@drawable/bg_node_card"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:onClick="@{() -> self.request(Request.OpenProxy)}"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="12dp">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_flag_box"
+                        android:gravity="center"
+                        android:text="@{activeProxy != null ? FlagUtil.flagOf(activeProxy) : @string/fanvpn_flag_auto}"
+                        android:textColor="@{activeProxy != null ? @color/fanvpn_neon : @color/fanvpn_text_tertiary}"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="11dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{activeProxy != null ? activeProxy : (profileName != null ? profileName : @string/fanvpn_auto_select)}"
+                            android:textColor="#E8F1FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@{clashRunning ? @string/fanvpn_line_smooth : (activeProxy != null ? @string/fanvpn_selected_route : @string/fanvpn_auto_select)}"
+                            android:textColor="@{clashRunning ? @color/fanvpn_green : @color/fanvpn_text_tertiary}"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <!-- ↻ 刷新按钮 -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="14dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="4dp"
+                        android:clickable="@{!isRefreshing}"
+                        android:focusable="@{!isRefreshing}"
+                        android:onClick="@{() -> self.request(Request.RefreshProfile)}"
+                        android:text="@{isRefreshing ? @string/fanvpn_refreshing : @string/fanvpn_refresh}"
+                        android:textColor="@{isRefreshing ? @color/fanvpn_text_tertiary : @color/fanvpn_neon}"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{clashRunning ? @string/fanvpn_switch : @string/fanvpn_select}"
+                        android:textColor="#8FA3BF"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- announcement card -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_node_card"
+                    android:orientation="vertical"
+                    android:onClick="@{() -> self.request(Request.OpenAnnouncement)}"
+                    android:paddingHorizontal="14dp"
+                    android:paddingVertical="12dp"
+                    android:visibility="@{announceVisible ? View.VISIBLE : View.GONE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{announceTitle}"
+                        android:textColor="@color/fanvpn_neon"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@{announceBody}"
+                        android:textColor="#B8C6DD"
+                        android:textSize="12sp"
+                        android:lineSpacingExtra="2dp" />
+                </LinearLayout>
+
+                <!-- ===== 底部:分流模式 + 官网 ===== -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <!-- mode pill -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_mode_pill"
+                        android:onClick="@{() -> self.request(Request.ToggleMode)}"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="5dp"
+                        android:text="@{mode}"
+                        android:textColor="@{clashRunning ? @color/fanvpn_green : @color/fanvpn_text_secondary}"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <!-- website link -->
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:onClick="@{() -> self.request(Request.OpenWebsite)}"
+                        android:text="@string/fanvpn_website"
+                        android:textColor="#5A6B85"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
