@@ -9,8 +9,7 @@ released under the **GNU GPL-3.0**. The underlying proxy engine is
 
 ## Modifications
 
-Changes by the FanVPN project (since 2026): rebranding and a simplified
-user interface, build-time configuration sources, and compatibility fixes
+Changes by the FanVPN project (since 2026): a new app name and icon, plus a simplified user interface, build-time configuration sources, and compatibility fixes
 for older Android versions. See the commit history for details.
 
 ## Build
@@ -71,7 +70,7 @@ keys are intentionally excluded from this repository.
 
 ## 修改说明
 
-FanVPN 项目(自 2026 年起)的改动包括:品牌化与界面精简、构建期注入的配置源、
+FanVPN 项目(自 2026 年起)的改动包括: 更名、更换图标与界面精简、构建期注入的配置源、
 以及针对旧版本 Android 的兼容性修复。完整改动见提交历史。
 
 ## 构建
